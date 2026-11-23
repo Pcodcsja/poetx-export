@@ -9,7 +9,7 @@ import {
 import { ref } from "vue";
 import { sendMessage } from "@/utils/messaging";
 import { CustomItems } from "../wg_items/App.vue";
-import { transformTypes } from "cn-poe2-utils/api";
+import { transformTypes } from "@/utils/poe2_types";
 
 const pattern = new RegExp("/helper/poe2/[^/]*#/share/([^/?]+)");
 

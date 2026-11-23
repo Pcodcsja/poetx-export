@@ -1,4 +1,4 @@
-import { wgTypes } from "cn-poe2-utils/api";
+import { wgTypes } from "@/utils/poe2_types";
 
 const WG_HOST = `https://www.wegame.com.cn`;
 const WG_URL_GET_ROLE_INFO = "/api/v1/wegame.pallas.poe2.Profile/GetRoleInfo";

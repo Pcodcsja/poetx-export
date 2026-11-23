@@ -1,4 +1,4 @@
-import { type itemTypes } from "cn-poe2-utils/api";
+import { type itemTypes } from "@/utils/poe2_types";
 
 interface ItemPackage {
   id: string;

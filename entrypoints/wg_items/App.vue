@@ -24,7 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import sockets from "./sockets.json" with { type: "json" };
-import { itemTypes } from "cn-poe2-utils/api";
+import { itemTypes } from "@/utils/poe2_types";
 
 interface Item {
   name: string;
