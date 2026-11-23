@@ -26,6 +26,19 @@ interface TranslateResponse extends APIResponse {
   };
 }
 
+/**
+ * Older POE1 transformer responses can contain an inline marker such as
+ * `<gemlevel=0>` inside an item modifier. That marker is plain item text, but
+ * the server leaves the angle brackets unescaped, which makes the whole POB
+ * document invalid XML. Escape only this known malformed marker so valid XML
+ * from the transformer is left untouched.
+ */
+export function repairMalformedTransformerXml(xml: string): string {
+  return xml.replace(/<gemlevel=([^<>]*)>/g, (_, value: string) =>
+    `&lt;gemlevel=${value}&gt;`,
+  );
+}
+
 export async function createPOE1Build(data: {
   items: string;
   passiveSkills: string;
@@ -57,7 +70,7 @@ export async function createPOE1Build(data: {
   }
 
   const apiResponse = (await response.json()) as TransformResponse;
-  return apiResponse.data!.xml;
+  return repairMalformedTransformerXml(apiResponse.data!.xml);
 }
 
 export async function createPOE2Build(data: {
@@ -101,7 +114,7 @@ export async function createPOE2Build(data: {
   }
 
   const apiResponse = (await response.json()) as TransformResponse;
-  return apiResponse.data!.xml;
+  return repairMalformedTransformerXml(apiResponse.data!.xml);
 }
 
 export async function translatePOE1Item(data: {
