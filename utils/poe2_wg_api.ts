@@ -12,7 +12,7 @@ const WG_URL_GET_SKILLS = "/api/v1/wegame.pallas.poe2.Profile/GetSkills";
 async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init);
   if (!response.ok) {
-    new Error(`HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
   return await response.json();
 }
@@ -39,8 +39,8 @@ export async function getRoleInfo(
 export async function getEquipments(
   roleId: string,
   shareCode: string,
-): Promise<wgTypes.GetRoleInfoResult> {
-  return await fetchJSON<wgTypes.GetRoleInfoResult>(
+): Promise<wgTypes.GetEquipmentsResult> {
+  return await fetchJSON<wgTypes.GetEquipmentsResult>(
     WG_HOST + WG_URL_GET_EQUIPMENTS,
     {
       method: "POST",
@@ -61,8 +61,8 @@ export async function getEquipments(
 export async function getTalentTree(
   roleId: string,
   shareCode: string,
-): Promise<wgTypes.GetRoleInfoResult> {
-  return await fetchJSON<wgTypes.GetRoleInfoResult>(
+): Promise<wgTypes.GetTalentTreeResult> {
+  return await fetchJSON<wgTypes.GetTalentTreeResult>(
     WG_HOST + WG_URL_GET_TALENT_TREE,
     {
       method: "POST",
@@ -83,7 +83,7 @@ export async function getTalentTree(
 export async function getJewels(
   roleId: string,
   shareCode: string,
-): Promise<wgTypes.GetRoleInfoResult> {
+): Promise<wgTypes.GetJewelsResult> {
   const response = await fetch(WG_HOST + WG_URL_GET_JEWELS, {
     method: "POST",
     headers: {
@@ -106,8 +106,8 @@ export async function getJewels(
 export async function getSkills(
   roleId: string,
   shareCode: string,
-): Promise<wgTypes.GetRoleInfoResult> {
-  return await fetchJSON<wgTypes.GetRoleInfoResult>(
+): Promise<wgTypes.GetSkillsResult> {
+  return await fetchJSON<wgTypes.GetSkillsResult>(
     WG_HOST + WG_URL_GET_SKILLS,
     {
       method: "POST",

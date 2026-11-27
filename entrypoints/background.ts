@@ -1,12 +1,13 @@
 import { onMessage } from "../utils/messaging";
-import * as transformer from "@/utils/transformer_api";
+import { createPOE1Build, translatePOE1Item } from "@/utils/poe1_build";
+import { createPOE2Build, translatePOE2Item } from "@/utils/poe2_build";
 
 export default defineBackground(() => {
   onMessage("createPOE1Build", (message) => {
-    return transformer.createPOE1Build(message.data);
+    return createPOE1Build(message.data);
   });
   onMessage("createPOE2Build", (message) => {
-    return transformer.createPOE2Build(message.data);
+    return createPOE2Build(message.data);
   });
   onMessage("manageWgItems", async (message) => {
     browser.windows.create({
@@ -31,10 +32,10 @@ export default defineBackground(() => {
   });
 
   onMessage("translatePOE1Item", async (message) => {
-    return transformer.translatePOE1Item(message.data);
+    return translatePOE1Item(message.data.item);
   });
 
   onMessage("translatePOE2Item", async (message) => {
-    return transformer.translatePOE2Item(message.data);
+    return translatePOE2Item(message.data.item);
   });
 });

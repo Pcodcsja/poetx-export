@@ -1,0 +1,5 @@
+PoBR WASM v0.0.58 (web), source commit 6186a9ad16f34d7607cfcd54115a5ed43b840eb4.
+https://github.com/ackness/pobr/releases/tag/v0.0.58
+
+The generated JavaScript and types are in vendor/pobr. The WASM binary and PoE2 0.5.5.8 data are loaded from the installed extension. All files come from pobr-wasm-v0.0.58-web.tar.gz (SHA-256 e9e24a943642a0a01c34fdbd54d9f49d43f837ccff9dbb6a5a48f1f1cca0c6f6).
+PoBR code is MIT licensed. The bundled game data is derived from Path of Exile 2 client assets, copyright Grinding Gear Games, and used for build interoperability.

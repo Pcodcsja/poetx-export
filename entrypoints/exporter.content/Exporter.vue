@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed, reactive, ref, onMounted } from "vue";
+import { computed, reactive, ref, onMounted, shallowRef } from "vue";
 import * as PoeApi from "@/utils/poe1_api";
 import {
   Character,
   GetCharactersResult,
   GetItemsResult,
+  GetPassiveSkillsResult,
 } from "cn-poe-utils/api";
+import { saveCharacterData } from "@/utils/character_data";
 
 const props = defineProps(["createBuilding", "startup"]);
 
@@ -18,6 +20,11 @@ const currLeague = ref("");
 const currCharacters = ref<Character[]>([]);
 const currCharacter = ref("");
 const buildingCode = ref("");
+const exporting = ref(false);
+const characterData = shallowRef<{
+  items: GetItemsResult;
+  passiveSkills: GetPassiveSkillsResult;
+}>();
 const state = reactive({
   accountName,
   realm,
@@ -91,7 +98,9 @@ async function handleCharactersQuery() {
 }
 
 async function handleExport() {
+  exporting.value = true;
   state.buildingCode = "";
+  characterData.value = undefined;
 
   const accountName = state.accountName;
   const character = state.currCharacter;
@@ -112,6 +121,7 @@ async function handleExport() {
     ]);
 
     removeInventoryItems(items);
+    characterData.value = { items, passiveSkills };
     state.buildingCode = await props.createBuilding(items, passiveSkills);
   } catch (e) {
     if (e instanceof Error) {
@@ -119,7 +129,8 @@ async function handleExport() {
     } else {
       alert(e);
     }
-    return;
+  } finally {
+    exporting.value = false;
   }
 }
 
@@ -143,6 +154,11 @@ function removeInventoryItems(result: GetItemsResult) {
 
 function handleCopy() {
   navigator.clipboard.writeText(state.buildingCode);
+}
+
+function handleSaveCharacter() {
+  if (characterData.value)
+    saveCharacterData({ game: "poe1", data: characterData.value });
 }
 
 function getInitialAccountName() {
@@ -237,7 +253,11 @@ async function handleTranslateClick() {
           {{ item.name }},{{ item.level }},{{ item.class }}
         </option>
       </select>
-      <button :disabled="!exportReady" v-if="selectReady" @click="handleExport">
+      <button
+        :disabled="!exportReady || exporting"
+        v-if="selectReady"
+        @click="handleExport"
+      >
         导出
       </button>
     </div>
@@ -251,6 +271,9 @@ async function handleTranslateClick() {
     <input disabled maxlength="50" :value="state.buildingCode" />
     <button @click="handleCopy" :disabled="state.buildingCode.length === 0">
       复制
+    </button>
+    <button @click="handleSaveCharacter" :disabled="!characterData">
+      保存角色数据
     </button>
   </span>
 </template>

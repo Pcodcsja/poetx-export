@@ -12,8 +12,11 @@ export default defineConfig({
       host_permissions: [
         "https://*.poe.game.qq.com/",
         "https://www.wegame.com.cn/",
-        "http://120.77.179.194:8888/*",
       ],
+      content_security_policy: {
+        extension_pages:
+          "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
+      },
       permissions: ["storage", "cookies", "clipboardWrite"],
       web_accessible_resources: [
         {

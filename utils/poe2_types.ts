@@ -4,8 +4,22 @@ export namespace wgTypes {
   export interface GetRoleInfoResult {
     role: {
       role_id: string;
+      level: number;
+      class_name: string;
     };
     [key: string]: unknown;
+  }
+  export interface GetEquipmentsResult {
+    equipments: unknown[];
+  }
+  export interface GetJewelsResult {
+    jewel_data: string;
+  }
+  export interface GetSkillsResult {
+    skills: unknown[];
+  }
+  export interface GetTalentTreeResult {
+    talent_tree: { hashes: number[]; quest_stats: string[] };
   }
 }
 
